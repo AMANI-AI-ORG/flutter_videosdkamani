@@ -84,14 +84,14 @@ class _AmaniVideoSDKScreenState extends State<AmaniVideoSDKScreen> {
     super.dispose();
   }
   Future<void> setupVideoBuilder() async {
- _videoSDKModule.startVideo("server_url", 
-                               "token",
-                               "name", 
+  _videoSDKModule.startVideo("https://sandbox.amani.ai:8091", 
+                               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ4OTg1NDY2LCJpYXQiOjE3NDg5ODU0MDYsImp0aSI6IjhiNjUyNmU3MGNkMzRiNWI4MmUyNjJiNjc4YzgxNDExIiwidXNlcl9pZCI6IjM5ODQ4Yjc5LWM3NjItNGExNi1iMDFlLTdkYjlkMjJmNmNkNyIsImFwaV91c2VyIjpmYWxzZSwicHJvZmlsZV9pZCI6IjBjNWQyOTM5LWM1ZmMtNDliNS05YzM1LWExMTk3YzM5YjYwNyIsImNvbXBhbnlfaWQiOiJlOWFmYmQzMS03M2NlLTRkZDYtYTI1Ny1mOGYxNmExZjBkNTIifQ.tKd5ABW-Byk1jqluyjX5RZ5g-Qo0LXDMNhOZj952OhU",
+                               "Bedri", 
                                "surname", 
-                               "stun_server",
-                               "turn_server", 
+                               "stun:tr.amani.ai:3478",
+                               "turn:tr.amani.ai:3478", 
                                "st_user", 
-                               "st_pass");
+                               "yHB4N!ec%FA3kZ%5xsgB");
     _videoSDKModule.setAmaniVideoDelegate();
 
   }
