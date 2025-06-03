@@ -1,6 +1,6 @@
-# flutter_amanivideosdk_example
+# flutter_videosdkamani_example
 
-Demonstrates how to use the flutter_amanivideosdk plugin.
+Demonstrates how to use the flutter_videosdkamani plugin.
 
 ## Getting Started
 

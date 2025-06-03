@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_amanivideosdk_example/screens/home.dart';
-import 'package:flutter_amanivideosdk_example/screens/AmaniVideoSDKScreen.dart';
+import 'dart:async';
+
+import 'package:flutter/services.dart';
+import 'package:flutter_videosdkamani/flutter_videosdkamani.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_videosdkamani_example/screens/home.dart';
+import 'package:flutter_videosdkamani_example/screens/AmaniVideoSDKScreen.dart';
 
 
 void main() {

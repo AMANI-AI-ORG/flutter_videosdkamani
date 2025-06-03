@@ -2,10 +2,10 @@ import 'dart:async';
 import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_amanivideosdk/flutter_amanivideosdk.dart';
-import 'package:flutter_amanivideosdk/modules/amani_video.dart';
-import 'package:flutter_amanivideosdk/flutter_amanivideosdk_method_channel.dart';
-import 'package:flutter_amanivideosdk/flutter_amanivideosdk.dart';
+import 'package:flutter_videosdkamani/flutter_videosdkamani.dart';
+import 'package:flutter_videosdkamani/modules/amani_video.dart';
+import 'package:flutter_videosdkamani/flutter_videosdkamani_method_channel.dart';
+import 'package:flutter_videosdkamani/flutter_videosdkamani.dart';
 // import 'package:flutter_amanisdk/amani_sdk.dart';
 // import 'package:flutter_amanisdk/common/models/api_version.dart';
 
@@ -20,7 +20,7 @@ class AmaniVideoSDKScreen extends StatefulWidget {
 
 class _AmaniVideoSDKScreenState extends State<AmaniVideoSDKScreen> {
 
-  final VideoSDK _videoSDKModule = AmaniVideoSDK().getAmaniVideo();
+  final VideoSDK _videoSDKModule = FlutterVideosdkamani().getAmaniVideo();
 
   
   static const EventChannel _videoEventChannel = EventChannel('amanivideosdk_delegate_channel');

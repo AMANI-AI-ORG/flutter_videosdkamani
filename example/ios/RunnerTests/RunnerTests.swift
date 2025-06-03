@@ -3,7 +3,7 @@ import UIKit
 import XCTest
 
 
-@testable import flutter_amanivideosdk
+@testable import flutter_videosdkamani
 
 // This demonstrates a simple unit test of the Swift portion of this plugin's implementation.
 //
@@ -12,7 +12,7 @@ import XCTest
 class RunnerTests: XCTestCase {
 
   func testGetPlatformVersion() {
-    let plugin = FlutterAmanivideosdkPlugin()
+    let plugin = FlutterVideosdkamaniPlugin()
 
     let call = FlutterMethodCall(methodName: "getPlatformVersion", arguments: [])
 

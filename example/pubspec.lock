@@ -70,13 +70,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_amanivideosdk:
-    dependency: "direct main"
-    description:
-      path: ".."
-      relative: true
-    source: path
-    version: "0.0.1"
   flutter_driver:
     dependency: transitive
     description: flutter
@@ -95,6 +88,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_videosdkamani:
+    dependency: "direct main"
+    description:
+      path: ".."
+      relative: true
+    source: path
+    version: "0.0.1"
   fuchsia_remote_debug_protocol:
     dependency: transitive
     description: flutter

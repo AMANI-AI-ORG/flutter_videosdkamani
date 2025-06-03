@@ -1,4 +1,4 @@
-name: flutter_amanivideosdk
+name: flutter_videosdkamani
 description: "A new Flutter plugin project."
 version: 0.0.1
 homepage:
@@ -35,10 +35,10 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.flutter_amanivideosdk
-        pluginClass: FlutterAmanivideosdkPlugin
+        package: com.example.flutter_videosdkamani
+        pluginClass: FlutterVideosdkamaniPlugin
       ios:
-        pluginClass: FlutterAmanivideosdkPlugin
+        pluginClass: FlutterVideosdkamaniPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

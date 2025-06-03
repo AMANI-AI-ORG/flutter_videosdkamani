@@ -3,12 +3,12 @@ import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
-import 'package:flutter_amanivideosdk/flutter_amanivideosdk_method_channel.dart';
+import 'package:flutter_videosdkamani/flutter_videosdkamani_method_channel.dart';
 import 'package:flutter/material.dart';
 
 
 class VideoSDK {
-  final MethodChannelAmaniVideoSDK _methodChannel;
+  final MethodChannelFlutterVideosdkamani _methodChannel;
   final eventChannel = const EventChannel('amanivideosdk_event_channel');
 
   VideoSDK(this._methodChannel);

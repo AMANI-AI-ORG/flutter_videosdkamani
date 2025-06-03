@@ -1,4 +1,4 @@
-# flutter_amanivideosdk
+# flutter_videosdkamani
 
 A new Flutter plugin project.
 
