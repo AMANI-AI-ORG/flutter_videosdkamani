@@ -44,38 +44,11 @@ class _AmaniVideoSDKScreenState extends State<AmaniVideoSDKScreen> {
     } else if (event == "call_end") {
       _videoSDKModule.closeSDK();
       
+      debugPrint("navigate pop yaptı");
+      
     }
   }
 
-//   void _showCameraSwitchDialog() {
-//   final ctx = navigatorKey.currentContext;
-
-//   debugPrint("AmaniVideoScreen showcamera func içi ctx::::: $ctx");
-//   if (ctx == null) return;
-
-//   showDialog(
-//     context: ctx,
-//     builder: (context) => AlertDialog(
-//       title: const Text("Camera Switch Request"),
-//       content: const Text("Agent is requesting a camera switch. Allow?"),
-//       actions: [
-//         TextButton(
-//           onPressed: () {
-//             Navigator.of(context).pop();
-//             _videoSDKModule.switchCamera(); // Flutter method that triggers native switch
-//           },
-//           child: const Text("Allow"),
-//         ),
-//         TextButton(
-//           onPressed: () {
-//             Navigator.of(context).pop();
-//           },
-//           child: const Text("Deny"),
-//         ),
-//       ],
-//     ),
-//   );
-// }
 
 
   @override
@@ -84,14 +57,14 @@ class _AmaniVideoSDKScreenState extends State<AmaniVideoSDKScreen> {
     super.dispose();
   }
   Future<void> setupVideoBuilder() async {
-  _videoSDKModule.startVideo("https://sandbox.amani.ai:8091", 
-                               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ4OTg1NDY2LCJpYXQiOjE3NDg5ODU0MDYsImp0aSI6IjhiNjUyNmU3MGNkMzRiNWI4MmUyNjJiNjc4YzgxNDExIiwidXNlcl9pZCI6IjM5ODQ4Yjc5LWM3NjItNGExNi1iMDFlLTdkYjlkMjJmNmNkNyIsImFwaV91c2VyIjpmYWxzZSwicHJvZmlsZV9pZCI6IjBjNWQyOTM5LWM1ZmMtNDliNS05YzM1LWExMTk3YzM5YjYwNyIsImNvbXBhbnlfaWQiOiJlOWFmYmQzMS03M2NlLTRkZDYtYTI1Ny1mOGYxNmExZjBkNTIifQ.tKd5ABW-Byk1jqluyjX5RZ5g-Qo0LXDMNhOZj952OhU",
-                               "Bedri", 
+  _videoSDKModule.startVideo("server_url", 
+                               "token",
+                               "name", 
                                "surname", 
-                               "stun:tr.amani.ai:3478",
-                               "turn:tr.amani.ai:3478", 
+                               "stun_server",
+                               "turn_server", 
                                "st_user", 
-                               "yHB4N!ec%FA3kZ%5xsgB");
+                               "st_pass");
     _videoSDKModule.setAmaniVideoDelegate();
 
   }

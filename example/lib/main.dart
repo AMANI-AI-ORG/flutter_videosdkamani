@@ -11,7 +11,7 @@ import 'package:flutter_videosdkamani_example/screens/AmaniVideoSDKScreen.dart';
 
 void main() {
   runApp(MaterialApp(
-    initialRoute: '/',
+    initialRoute: '/amani-videosdk',
     routes: {
       '/': (ctx) => const HomeScreen(),
       '/amani-videosdk': (ctx) => const AmaniVideoSDKScreen(),

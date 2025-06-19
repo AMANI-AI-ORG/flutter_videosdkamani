@@ -28,7 +28,7 @@ abstract class FlutterVideosdkamaniPlatform extends PlatformInterface {
   }
 
 
-    Future<dynamic> startVideoSDK({
+    Future<Object>? startVideoSDK({
     required String serverURL,
     required String token,
     required String name,
@@ -38,6 +38,14 @@ abstract class FlutterVideosdkamaniPlatform extends PlatformInterface {
     required String turnUser,
     required String turnPass,
   }) {
+    throw  UnimplementedError('startVideoSDK() has not been implemented.');
+  }
+
+  Future<void> switchCamera() {
+    throw  UnimplementedError('startVideoSDK() has not been implemented.');
+  }
+
+  Future<void> toggleTorch() {
     throw  UnimplementedError('startVideoSDK() has not been implemented.');
   }
 

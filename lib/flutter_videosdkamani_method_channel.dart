@@ -15,7 +15,7 @@ class MethodChannelFlutterVideosdkamani extends FlutterVideosdkamaniPlatform {
 
   final methodChannel = const MethodChannel('amanivideosdk_method_channel');
   @override 
-  Future<dynamic> startVideoSDK({
+  Future<Object>? startVideoSDK({
       required String serverURL,
       required String token,
       required String name,
@@ -24,10 +24,10 @@ class MethodChannelFlutterVideosdkamani extends FlutterVideosdkamaniPlatform {
       required String turnServer,
       required String turnUser,
       required String turnPass,
-    }) async {
+    })  {
       try {
         print("method channel tarafında plugine'e gidecek");
-        await methodChannel.invokeMethod('startVideo', {
+         methodChannel.invokeMethod('startVideo', {
           'serverUrl': serverURL,
           'token': token,
           'name': name,
@@ -48,13 +48,17 @@ class MethodChannelFlutterVideosdkamani extends FlutterVideosdkamaniPlatform {
   }
 
   @override
-  Future<void> switchCamera() async {
-    await methodChannel.invokeMethod("switchCamera");
+  Future<void> switchCamera() {
+   final result = methodChannel.invokeMethod("switchCamera");
+
+   return result;
   }
 
   @override
-  Future<void> toggleTorch() async {
-    await methodChannel.invokeMethod("toggleTorch");
+  Future<void> toggleTorch()  {
+    final result = methodChannel.invokeMethod("toggleTorch");
+
+    return result;
   }
 
   @override

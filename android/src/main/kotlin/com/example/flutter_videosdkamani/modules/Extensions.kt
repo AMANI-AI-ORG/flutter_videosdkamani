@@ -61,6 +61,8 @@ fun FragmentActivity.replaceFragment(containerViewId: Int, fragment: Fragment?) 
             .addToBackStack(it.javaClass.name)
             .replace(containerViewId, it)
             .commit()
+            
+
     }
 }
 

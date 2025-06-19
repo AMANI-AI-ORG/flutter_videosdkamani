@@ -30,7 +30,7 @@ class FlutterVideosdkamaniPlugin: FlutterPlugin, MethodCallHandler, ActivityAwar
   }
 
   override fun onMethodCall(call: MethodCall, result: Result) {
-     when (call.method) {
+    when (call.method) {
     "startVideo" -> {
       val serverUrl = call.argument<String>("serverUrl") ?: ""
       val token = call.argument<String>("token") ?: ""
@@ -47,10 +47,22 @@ class FlutterVideosdkamaniPlugin: FlutterPlugin, MethodCallHandler, ActivityAwar
             return
         }
 
-      // Eğer burada bir activity gerekiyorsa, null değil mi kontrol et
     print("android tarafında plugin")
     FlutterAmaniVideo.instance.start(serverUrl, token, name, surname, stunServer, turnServer, turnUser, turnPass, activity!!, result)
   }
+     
+    "closeSDK" -> {
+        print("close sdk plugin")
+        FlutterAmaniVideo.instance.closeSDK(activity!!)
+
+      }
+    "switchCamera" -> {
+      FlutterAmaniVideo.instance.switchCamera(activity!!)
+    }
+    "toggleTorch" -> {
+      FlutterAmaniVideo.instance.toggleTorch(activity!!)
+    }
+
 }
 }
   override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
