@@ -36,11 +36,16 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import MessageAlertDialogFragment
+import java.lang.ref.WeakReference
+
+
 
 class FlutterAmaniVideo : Module {
 
     //Properties
     private var videoModule = VideoSDK()
+    private var currentActivity: WeakReference<Activity>? = null
     companion object {
         val instance = FlutterAmaniVideo()
         private const val TAG = "CallActivity"
@@ -56,31 +61,97 @@ class FlutterAmaniVideo : Module {
 
     //AmaniVideoSDK observer funcs and start func
 
-    fun switchCamera(activity: Activity) {
-        if (activity is AppCompatActivity) {
-        AlertDialog.Builder(activity)
-            .setTitle("Kamera Değiştir")
-            .setMessage("Kamera yönünü değiştirmek istiyor musunuz?")
-            .setPositiveButton("Evet") { _, _ ->
-                // Kamera değiştir
-            }
-            .setNegativeButton("Hayır", null)
-            .show()
+    fun toggleTorch() {
+        val act = currentActivity?.get()
+        if (act is FragmentActivity) {
+            val dialog = MessageAlertDialogFragment(
+                message = "Do you want to toggle the flash?",
+                onConfirm = {
+                    Log.e(TAG, "torch tapped")
+                },
+                onCancel = { /* nothing */ }
+            )
+            dialog.show(act.supportFragmentManager, "ToggleTorchDialog")
         } else {
-        Log.e("VideoSDK", "Activity is not AppCompatActivity!")
-    }
+            Log.e(TAG, "Invalid activity reference")
+        }
+        // val act = currentActivity?.get()
+        // if (act is FragmentActivity) {
+        //     val dialog = MessageAlertDialogFragment(
+        //         message = "Do you want to toggle the flash?",
+        //         onConfirm = {
+        //             videoModule.toggleTorch()
+        //             result.success(null)
+        //         },
+        //         onCancel = {
+        //             result.success(null)
+        //         }
+        //     )
+        //     dialog.show(act.supportFragmentManager, "ToggleTorchDialog")
+        // } else {
+        //     result.error("30006", "Invalid activity reference", null)
+        // }
     }
 
-    fun toggleTorch(activity: Activity) {
-        AlertDialog.Builder(activity)
-        .setTitle("Flaş Kullanımı")
-        .setMessage("Flaşı açmak/kapatmak ister misiniz?")
-        .setPositiveButton("Evet") { _, _ ->
-          
+    fun switchCamera() {
+        val act = currentActivity?.get()
+        if (act is FragmentActivity) {
+            val dialog = MessageAlertDialogFragment(
+                message = "Do you want to switch the camera?",
+                onConfirm = {
+                    Log.e(TAG, "confirm tapped")
+                },
+                onCancel = { /* nothing */ }
+            )
+            dialog.show(act.supportFragmentManager, "SwitchCameraDialog")
+        } else {
+            Log.e(TAG, "Invalid activity reference")
         }
-        .setNegativeButton("Hayır", null)
-        .show()
+        // val act = currentActivity?.get()
+        // if (act is FragmentActivity) {
+        //     val dialog = MessageAlertDialogFragment(
+        //         message = "Do you want to switch the camera?",
+        //         onConfirm = {
+        //             videoModule.switchCamera()
+        //             result.success(null)
+        //         },
+        //         onCancel = {
+        //             result.success(null)
+        //         }
+        //     )
+        //     dialog.show(act.supportFragmentManager, "SwitchCameraDialog")
+        // } else {
+        //     result.error("30006", "Invalid activity reference", null)
+        // }
     }
+
+    // fun switchCamera(activity: Activity) {
+     
+    //     if (activity is AppCompatActivity) {
+    //     AlertDialog.Builder(activity)
+    //         .setTitle("Kamera Değiştir")
+    //         .setMessage("Kamera yönünü değiştirmek istiyor musunuz?")
+    //         .setPositiveButton("Evet") { _, _ ->
+    //             // Kamera değiştir
+    //         }
+    //         .setNegativeButton("Hayır", null)
+    //         .show()
+    //     } else {
+    //     Log.e("VideoSDK", "Activity is not AppCompatActivity!")
+    //     }
+    // }
+
+    // fun toggleTorch(activity: Activity) {
+
+    //     AlertDialog.Builder(activity)
+    //     .setTitle("Flaş Kullanımı")
+    //     .setMessage("Flaşı açmak/kapatmak ister misiniz?")
+    //     .setPositiveButton("Evet") { _, _ ->
+          
+    //     }
+    //     .setNegativeButton("Hayır", null)
+    //     .show()
+    // }
     
     fun closeSDK(
     activity: Activity,
@@ -116,6 +187,7 @@ class FlutterAmaniVideo : Module {
         )
         return
     }
+    currentActivity = WeakReference(activity)
 
     var id = 0x123456
     val context = activity.applicationContext

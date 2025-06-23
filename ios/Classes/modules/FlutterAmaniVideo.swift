@@ -50,14 +50,57 @@ class FlutterAmaniVideo {
 
 
     public func toggleTorch(result: @escaping FlutterResult) {
-        module?.toggleTorch()
-        result(nil)
+      guard let vc = UIApplication.shared.windows.last?.rootViewController else {
+        result(FlutterError(code: "30001", message: "No root view controller", details: nil))
+        return
+      }
+
+      let alertVC = MessageAlertController(
+        message: "Do you want to toggle the flash?",
+        onConfirm: { [weak self] in
+            print("Confirmed toggle ")
+            self?.module?.toggleTorch()
+            result(nil)
+        },
+        onCancel: {
+            print("Cancelled toggle")
+            result(nil) // ya da error verebilirsin
+        }
+    )
+
+    DispatchQueue.main.async {
+        vc.present(alertVC, animated: true, completion: nil)
+    }
+        // module?.toggleTorch()
+        // result(nil)
     }
 
     public func switchCamera(result: @escaping FlutterResult) {
+
+        guard let vc = UIApplication.shared.windows.last?.rootViewController else {
+            result(FlutterError(code: "30001", message: "No root view controller", details: nil))
+            return
+        }
+
+        let alertVC = MessageAlertController(
+            message: "Do you want to switch the camera?",
+            onConfirm: { [weak self] in
+                print("Confirmed switch camera")
+                self?.module?.switchCamera()
+                result(nil)
+            },
+            onCancel: {
+                print("Cancelled switch camera")
+                result(nil) // ya da error verebilirsin
+            }
+        )
+
+        DispatchQueue.main.async {
+            vc.present(alertVC, animated: true, completion: nil)
+        }
       
-      module?.switchCamera()
-        result(nil)
+      // module?.switchCamera()
+      //   result(nil)
     }
 
     public func closeSDK() {

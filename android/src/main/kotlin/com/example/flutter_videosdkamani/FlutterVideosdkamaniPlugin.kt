@@ -20,6 +20,7 @@ class FlutterVideosdkamaniPlugin: FlutterPlugin, MethodCallHandler, ActivityAwar
   private lateinit var channel : MethodChannel
   private var activity: Activity? = null
   private lateinit var delegateChannel: EventChannel
+  private var amaniVideoModule: FlutterAmaniVideo? = null
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "amanivideosdk_method_channel")
@@ -27,29 +28,39 @@ class FlutterVideosdkamaniPlugin: FlutterPlugin, MethodCallHandler, ActivityAwar
 
     delegateChannel = EventChannel(flutterPluginBinding.binaryMessenger, "amanivideosdk_delegate_channel")
     delegateChannel.setStreamHandler(AmaniVideoDelegateEventHandler())
+    amaniVideoModule = FlutterAmaniVideo()
   }
 
   override fun onMethodCall(call: MethodCall, result: Result) {
     when (call.method) {
     "startVideo" -> {
-      val serverUrl = call.argument<String>("serverUrl") ?: ""
-      val token = call.argument<String>("token") ?: ""
-      val name = call.argument<String>("name") ?: ""
-      val surname = call.argument<String>("surname") ?: ""
-      val stunServer = call.argument<String>("stunServer") ?: ""
-      val turnServer = call.argument<String>("turnServer") ?: ""
-      val turnUser = call.argument<String>("turnUser") ?: ""
-      val turnPass = call.argument<String>("turnPass") ?: ""
+                  val serverUrl = call.argument<String>("serverUrl") ?: ""
+                  val token = call.argument<String>("token") ?: ""
+                  val name = call.argument<String>("name") ?: ""
+                  val surname = call.argument<String>("surname") ?: ""
+                  val stunServer = call.argument<String>("stunServer") ?: ""
+                  val turnServer = call.argument<String>("turnServer") ?: ""
+                  val turnUser = call.argument<String>("turnUser") ?: ""
+                  val turnPass = call.argument<String>("turnPass") ?: ""
 
-      if (serverUrl == null || token == null || name == null || surname == null ||
-            stunServer == null || turnServer == null || turnUser == null || turnPass == null) {
-            result.error("INVALID_ARGUMENTS", "One or more arguments are null", null)
-            return
-        }
+                  if (activity == null) {
+                      result.error("30000", "Activity is null", null)
+                      return
+                  }
 
-    print("android tarafında plugin")
-    FlutterAmaniVideo.instance.start(serverUrl, token, name, surname, stunServer, turnServer, turnUser, turnPass, activity!!, result)
-  }
+                  amaniVideoModule?.start(
+                      serverUrl,
+                      token,
+                      name,
+                      surname,
+                      stunServer,
+                      turnServer,
+                      turnUser,
+                      turnPass,
+                      activity!!,
+                      result
+                  )
+    }
      
     "closeSDK" -> {
         print("close sdk plugin")
@@ -57,10 +68,20 @@ class FlutterVideosdkamaniPlugin: FlutterPlugin, MethodCallHandler, ActivityAwar
 
       }
     "switchCamera" -> {
-      FlutterAmaniVideo.instance.switchCamera(activity!!)
+      if (activity == null) {
+                result.error("30000", "Activity is null", null)
+                return
+            }
+            amaniVideoModule?.switchCamera()
+            result.success(null)
     }
     "toggleTorch" -> {
-      FlutterAmaniVideo.instance.toggleTorch(activity!!)
+      if (activity == null) {
+              result.error("30000", "Activity is null", null)
+              return
+          }
+          amaniVideoModule?.toggleTorch()
+          result.success(null)
     }
 
 }
@@ -86,3 +107,22 @@ class FlutterVideosdkamaniPlugin: FlutterPlugin, MethodCallHandler, ActivityAwar
     activity = null
   }
 }
+  //   "startVideo" -> {
+  //     val serverUrl = call.argument<String>("serverUrl") ?: ""
+  //     val token = call.argument<String>("token") ?: ""
+  //     val name = call.argument<String>("name") ?: ""
+  //     val surname = call.argument<String>("surname") ?: ""
+  //     val stunServer = call.argument<String>("stunServer") ?: ""
+  //     val turnServer = call.argument<String>("turnServer") ?: ""
+  //     val turnUser = call.argument<String>("turnUser") ?: ""
+  //     val turnPass = call.argument<String>("turnPass") ?: ""
+
+  //     if (serverUrl == null || token == null || name == null || surname == null ||
+  //           stunServer == null || turnServer == null || turnUser == null || turnPass == null) {
+  //           result.error("INVALID_ARGUMENTS", "One or more arguments are null", null)
+  //           return
+  //       }
+
+  //   print("android tarafında plugin")
+  //   FlutterAmaniVideo.instance.start(serverUrl, token, name, surname, stunServer, turnServer, turnUser, turnPass, activity!!, result)
+  // }
