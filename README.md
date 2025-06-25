@@ -98,8 +98,9 @@ source "https://github.com/CocoaPods/Specs"
 
 # Permissions - iOS
 
-###For Location
+##For Location
 
+```xml
 <key>NSLocationWhenInUseUsageDescription</key>
 <string>This application requires access to your location to upload the document.</string>
 <key>NSLocationUsageDescription</key>
@@ -108,17 +109,21 @@ source "https://github.com/CocoaPods/Specs"
 <string>This application requires access to your location to upload the document.</string>
 <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 <string>This application requires access to your location to upload the document.</string>
+```
 
-###For Microphone
+##For Microphone
 
+```xml
 <key>NSMicrophoneUsageDescription</key>
 <string>This app needs to use camera for video call features</string>
+```
 
-###For Camera
+##For Camera
 
+```xml
 <key>NSCameraUsageDescription</key>
 <string>This application requires access to your camera for scanning and uploading the document.</string>
- 
+ ```
  
 ##Required background modes - Caution Here!
 
@@ -130,12 +135,15 @@ Audio, AirPlay and Picture in Picture
 Voice over IP
 Alternatively you can add the block below on your info.plist file
 
+```xml
 <key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
 		<string>voip</string>
 	</array>
-
+ ```
+ 
+ 
  # Usage
  
 class _AmaniVideoSDKScreenState extends State<AmaniVideoSDKScreen> {
@@ -190,28 +198,17 @@ void initState() {
 
 Events from the native SDK are streamed to Flutter via EventChannel. Example event types:
 
-Event Name                                                Description
-
-connectState_connecting                               Video session is connecting
-
-connectState_connected                                Video session successfully connected
-
-connectState_failed                                   Connection attempt failed
-
-connectState_disconnected                             Disconnected from session
-
-call_end                                              Call ended by remote
-
-torch_toggle_requested                                Remote requested torch toggle
-
-camera_switch_requested                               Remote requested camera switch
-
-call_escaled                                          Video call escalated
-
-on_ui_call_end                                        End button clicked by user
-
-on_ui_camera_switch                                   Camera switched by user
-
-on_ui_muted                                           Microphone muted
-
-on_ui_camera_close                                    Camera turned off by user
+| Event Name                     | Description                          |
+|-------------------------------|--------------------------------------|
+| connectState_connecting       | Video session is connecting          |
+| connectState_connected        | Video session successfully connected |
+| connectState_failed           | Connection attempt failed            |
+| connectState_disconnected     | Disconnected from session            |
+| call_end                      | Call ended by remote                 |
+| torch_toggle_requested        | Remote requested torch toggle        |
+| camera_switch_requested       | Remote requested camera switch       |
+| call_escaled                  | Video call escalated                 |
+| on_ui_call_end                | End button clicked by user           |
+| on_ui_camera_switch           | Camera switched by user              |
+| on_ui_muted                   | Microphone muted                     |
+| on_ui_camera_close            | Camera turned off by user            |
