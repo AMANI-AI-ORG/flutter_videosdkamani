@@ -7,10 +7,7 @@
     - [Permissions](#permissions)
     - [Integration](#integration)
 - [Installation](#Installation)
-    - [Via Carthage](#via-carthage)
-    - [Via Manual](#via-manual)
-
-
+  
 # Overview
 
 The Amani Video SDK provides a video-based KYC verification solution. This Android SDK allows you to integrate real-time video calls with support for remote agent communication, camera switching, torch toggling, and event handling for call states.
@@ -22,8 +19,8 @@ The minimum requirements for the SDK are:
 minSdkVersion 21  
 compileSdk 34  
 Compiled with Java 17, minimum Java Version should be 17 as follows.
-
-compileOptions {
+```groovy
+compileOptions {  
         sourceCompatibility JavaVersion.VERSION_17  
         targetCompatibility JavaVersion.VERSION_17
     }
@@ -35,7 +32,7 @@ compileOptions {
     kotlin {
         jvmToolchain(17)
     }  
-    
+```    
 
 # Permissions - Android
 
@@ -80,7 +77,7 @@ flutter_videosdkamani:
 2. Enable view-binding in the Module build.gradle by adding this line into code block of android : 
 ```groovy
 buildFeatures {
-        viewBinding true
+    viewBinding true
 }
 ```
 3. Add the following in the Project build.gradle within in buildscript within the buildscript->repositories and buildscript->allprojects.
@@ -101,6 +98,18 @@ Add these lines on your Podfile\
 ```xml
 source "https://github.com/AmaniTechnologiesLtd/Mobile_SDK_Repo"
 source "https://github.com/CocoaPods/Specs"
+```
+
+```xml
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    
+    flutter_additional_ios_build_settings(target)
+    target.build_configurations.each do |config|
+     config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
+    end
+  end
+end
 ```
 
 # Permissions - iOS
@@ -152,7 +161,8 @@ Alternatively you can add the block below on your info.plist file
  
  
  # Usage
- 
+
+```groovy
 class _AmaniVideoSDKScreenState extends State<AmaniVideoSDKScreen> {
 
 final VideoSDK _videoSDKModule = FlutterVideosdkamani().getAmaniVideo();
@@ -201,7 +211,7 @@ void initState() {
 
   
 }
-
+```
 
 Events from the native SDK are streamed to Flutter via EventChannel. Example event types:
 
