@@ -64,7 +64,7 @@ class FlutterVideosdkamaniPlugin: FlutterPlugin, MethodCallHandler, ActivityAwar
      
     "closeSDK" -> {
         print("close sdk plugin")
-        FlutterAmaniVideo.instance.closeSDK(activity!!)
+        amaniVideoModule?.closeSDK(result)
 
       }
     "switchCamera" -> {

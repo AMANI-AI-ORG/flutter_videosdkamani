@@ -203,8 +203,6 @@ void initState() {
     } else if (event == "call_end") {
       _videoSDKModule.closeSDK();
       
-      debugPrint("navigate pop yaptı");
-      
     }
   }
 

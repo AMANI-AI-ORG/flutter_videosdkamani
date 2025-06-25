@@ -19,7 +19,6 @@ class FlutterAmaniVideo {
     }
 
     public func start(status: AmaniVideoSDK.CallStatus, result: @escaping FlutterResult) {
-         print("start() çağrıldı. Module değeri: \(String(describing: module))")
         guard let vc = UIApplication.shared.windows.last?.rootViewController else {
 
             result(FlutterError(code: "30001", message: "No root view controller", details: nil))
@@ -104,10 +103,11 @@ class FlutterAmaniVideo {
     }
 
     public func closeSDK() {
-      
+     
       DispatchQueue.main.async {
        self.module?.closeSDK()
       }
+      
       
       
      

@@ -8,7 +8,6 @@ class DelegateEventHandler: NSObject, FlutterStreamHandler {
   private var sdkView: SDKView?
   
   func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
-    print("DELEGATE EVENT HANDLER EVENTS TETİKLENDİ ---------------------");
     print(events);
     self.eventSink = events
     return nil
@@ -26,11 +25,11 @@ extension DelegateEventHandler: AmaniVideoDelegate {
 
     switch newState {
     case .connecting:
-      break
+      eventSink?("connectState_connecting")
     case .connected:
-      break
+      eventSink?("connectState_connected")
     case .disconnected:
-      break
+      eventSink?("connectState_disconnected")
     case .failed:
      eventSink?("call_end")
     }
@@ -40,6 +39,7 @@ extension DelegateEventHandler: AmaniVideoDelegate {
     debugPrint(error)
     DispatchQueue.main.async {
       // self.videoView?.removeFromSuperview()
+      self.eventSink?("on_exception")
     }
   }
 
@@ -48,13 +48,13 @@ extension DelegateEventHandler: AmaniVideoDelegate {
 
     switch event {
     case .cameraSwitch:
-      break
+      eventSink?("on_ui_camera_switch")
     case .cameraClose:
-      break
+      eventSink?("on_ui_camera_close")
     case .callEnd:
-      eventSink?("call_end")
+      eventSink?("on_ui_call_end")
     case .mute:
-      break
+      eventSink?("on_ui_muted")
     case .torch:
       break
     }
@@ -65,16 +65,13 @@ extension DelegateEventHandler: AmaniVideoDelegate {
 
     switch event {
     case .callEnd:
-    debugPrint("flutter on remote event1: \(event)")
       eventSink?("call_end")
     case .torch:
-    debugPrint("flutter on remote event2: \(event)")
       eventSink?("torch_toggle_requested")
     case .cameraSwitch:
-    debugPrint("flutter on remote event3: \(event)")
       eventSink?("camera_switch_requested")
     case .escalated:
-      print("escalated")
+      eventSink?("call_escalated")
       
     }
   }

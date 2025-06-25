@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import '../main.dart';
 import 'package:flutter/material.dart';
@@ -42,10 +44,10 @@ class _AmaniVideoSDKScreenState extends State<AmaniVideoSDKScreen> {
     } else if (event == "torch_toggle_requested") {
       _videoSDKModule.toggleTorch();
     } else if (event == "call_end") {
-      _videoSDKModule.closeSDK();
-      
-      debugPrint("navigate pop yaptı");
-      
+      _videoSDKModule.closeSDK().then((_) {
+      debugPrint("navigate did pop ");
+     
+    });
     }
   }
 
@@ -64,7 +66,7 @@ class _AmaniVideoSDKScreenState extends State<AmaniVideoSDKScreen> {
                                "stun_server",
                                "turn_server", 
                                "st_user", 
-                               "st_pass");
+                               "pass");
     _videoSDKModule.setAmaniVideoDelegate();
 
   }

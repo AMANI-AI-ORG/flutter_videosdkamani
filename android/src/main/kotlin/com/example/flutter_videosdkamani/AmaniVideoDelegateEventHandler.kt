@@ -17,7 +17,6 @@ import androidx.fragment.app.FragmentActivity
 class AmaniVideoDelegateEventHandler: EventChannel.StreamHandler {
 
     companion object {
-        private const val TAG = "CallObserver"
         var events: EventChannel.EventSink? = null
 
         lateinit var frag: Fragment
@@ -26,36 +25,60 @@ class AmaniVideoDelegateEventHandler: EventChannel.StreamHandler {
             override fun onConnectionState(connectionState: ConnectionState) {
             when (connectionState) {
                 ConnectionState.CONNECTING -> {
-                    Log.i(TAG, "Connecting: ")
+                    Log.i("CallObserver", "Connecting: $connectionState")
+                    Handler(Looper.getMainLooper()).post {
+                    try {
+                        events?.success("connectState_connecting")
+                    } catch (e: Exception) {
+                        Log.e("CallObserver", "connecting: ${e.message}")
+                    }
+                    }
                 }
 
                 ConnectionState.FAILED -> {
-                    // snackBar("Connection failed")
-                    // removeFragment(videoCallFragment)
-                    // visibleLoader(false)
+                    Log.i("CallObserver", "failed: $connectionState")
+                    Handler(Looper.getMainLooper()).post {
+                    try {
+                        events?.success("connectState_failed")
+                    } catch (e: Exception) {
+                        Log.e("CallObserver", "failed: ${e.message}")
+                    }
+                    }
                 }
 
                 ConnectionState.CONNECTED -> {
-                     Log.i(TAG, "Connected")
-                    // visibleLoader(false)
+                    Log.i("CallObserver", "Connected: $connectionState")
+                    Handler(Looper.getMainLooper()).post {
+                    try {
+                        events?.success("connectState_connected")
+                    } catch (e: Exception) {
+                        Log.e("CallObserver", "connected: ${e.message}")
+                    }
+                    }
                 }
 
                 ConnectionState.DISCONNECTED -> {
-                    // snackBar("Connection disconnected")
-                    // visibleLoader(false)
+                    Log.i("CallObserver", "Disconnected: $connectionState")
+                    Handler(Looper.getMainLooper()).post {
+                        try {
+                            events?.success("connectState_disconnected")
+                        } catch (e: Exception) {
+                            Log.e("CallObserver", "disconnected: ${e.message}")
+                        }
+                    }
                 }
             }
         }
 
         override fun onException(exception: String) {
-            // Log.e(TAG, "Video Call Exception: $exception")
-            // visibleLoader(false)
-            // removeFragment(videoCallFragment)
-            // Snackbar.make(
-            //     findViewById(R.id.layout),
-            //     exception,
-            //     Snackbar.LENGTH_SHORT
-            // ).show()
+            Log.e("CallObserver", "Video Call Exception: $exception")
+            Handler(Looper.getMainLooper()).post {
+                try {
+                    events?.success("on_exception")
+                } catch (e: Exception) {
+                    Log.e("CallObserver", "Fragment remove error: ${e.message}")
+                }
+            }
         }
 
         override fun onRemoteEvent(
@@ -64,46 +87,46 @@ class AmaniVideoDelegateEventHandler: EventChannel.StreamHandler {
         ) {
             when (amaniVideoRemoteEvents) {
                 AmaniVideoRemoteEvents.CALL_END -> {
-                        Log.i(TAG, "Call end - fragment remove")
+                        Log.i("CallObserver", "Call end - fragment remove")
                         Handler(Looper.getMainLooper()).post {
                             try {
                                 events?.success("call_end")
                             } catch (e: Exception) {
-                                Log.e(TAG, "Fragment remove error: ${e.message}")
+                                Log.e("CallObserver", "Fragment remove error: ${e.message}")
                             }
                         }
                 }
 
                 AmaniVideoRemoteEvents.CAMERA_SWITCH -> {
-                    Log.i(TAG, "Camera değiştir")
+                    Log.i("CallObserver", "Camera değiştir")
                     
                     Handler(Looper.getMainLooper()).post {
                             try {
                                 events?.success("camera_switch_requested")
                             } catch (e: Exception) {
-                                Log.e(TAG, "Fragment remove error: ${e.message}")
+                                Log.e("CallObserver", "Fragment remove error: ${e.message}")
                             }
                     }
                 }
 
                 AmaniVideoRemoteEvents.TORCH -> {
-                    Log.i(TAG, "flaş aç")
+                    Log.i("CallObserver", "toggle torch")
                     Handler(Looper.getMainLooper()).post {
                             try {
                                 events?.success("torch_toggle_requested")
                             } catch (e: Exception) {
-                                Log.e(TAG, "Fragment remove error: ${e.message}")
+                                Log.e("CallObserver", "Fragment remove error: ${e.message}")
                             }
                     }
                 }
 
                 AmaniVideoRemoteEvents.CALL_ESCALATED -> {
-                    Log.i(TAG, "escalted oldu")
+                    Log.i("CallObserver", "call escalated")
                     Handler(Looper.getMainLooper()).post {
                             try {
                                 events?.success("call_escaled")
                             } catch (e: Exception) {
-                                Log.e(TAG, "Fragment remove error: ${e.message}")
+                                Log.e("CallObserver", "Fragment remove error: ${e.message}")
                             }
                     }
                 }
@@ -117,37 +140,52 @@ class AmaniVideoDelegateEventHandler: EventChannel.StreamHandler {
             when (amaniVideoButtonEvents) {
                 AmaniVideoButtonEvents.CALL_END -> {
                     if (isActivated) {
-                        // alertDialog(
-                        //     title = "Are you sure?",
-                        //     message = "Are you sure you want to end the call? If this was " +
-                        //             "accidental, press No to continue the call. Press OK to end it.",
-                        //     positiveButton = "OK",
-                        //     negativeButton = "NO",
-                        //     positiveClick = {
-                        //         snackBar("Call is ended")
-                        //         removeFragment(videoCallFragment)
-                        //     },
-                        //     negativeClick = {
-
-                        //     }
-                        // )
+                        Log.i("CallObserver", "on ui call end")
+                          Handler(Looper.getMainLooper()).post {
+                            try {
+                                events?.success("on_ui_call_end")
+                            } catch (e: Exception) {
+                                Log.e("CallObserver", "Fragment remove error: ${e.message}")
+                            }
+                        }
                     }
                 }
                 AmaniVideoButtonEvents.CAMERA_SWITCH -> {
                     // if (isActivated) {
-                    Log.i(TAG, "Camera switched to back camera")
+                    Log.i("CallObserver", "Camera switched to back camera")
+                        Handler(Looper.getMainLooper()).post {
+                        try {
+                            events?.success("on_ui_camera_switch")
+                        } catch (e: Exception) {
+                            Log.e("CallObserver", "on ui camera switch error: ${e.message}")
+                        }
+                    }
                     // } else Log.i(TAG, "Camera re-switch to front camera")
                 }
 
                 AmaniVideoButtonEvents.MUTE -> {
                     // if (isActivated) {
-                    Log.i(TAG, "Muted")
+                    Log.i("CallObserver", "Muted")
+                    Handler(Looper.getMainLooper()).post {
+                    try {
+                        events?.success("on_ui_muted")
+                    } catch (e: Exception) {
+                        Log.e("CallObserver", "on ui muted error: ${e.message}")
+                    }
+                    }
                     // } else Log.i(TAG, "Um-muted")
                 }
 
                 AmaniVideoButtonEvents.CAMERA_CLOSE -> {
                     // if (isActivated) {
-                    //     Log.i(TAG, "Camera closed")
+                    Log.i("CallObserver", "Camera closed")
+                    Handler(Looper.getMainLooper()).post {
+                    try {
+                        events?.success("on_ui_camera_close")
+                    } catch (e: Exception) {
+                        Log.e("CallObserver", "Fragment remove error: ${e.message}")
+                    }
+                    }
                     // } else Log.i(TAG, "Camera re-opened")
                 }
             }

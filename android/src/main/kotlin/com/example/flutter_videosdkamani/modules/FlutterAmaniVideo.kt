@@ -1,5 +1,5 @@
 package com.example.flutter_videosdkamani.modules
-
+import androidx.fragment.app.FragmentManager
 import com.example.flutter_videosdkamani.R
 import android.app.Activity
 import android.content.Context
@@ -46,125 +46,84 @@ class FlutterAmaniVideo : Module {
     //Properties
     private var videoModule = VideoSDK()
     private var currentActivity: WeakReference<Activity>? = null
-    companion object {
-        val instance = FlutterAmaniVideo()
-        private const val TAG = "CallActivity"
-    }
-
-
     private lateinit var videoBuilder: VideoSDK.Builder
-    private var containerId = 0x123456
+    
     private var frag: Fragment? = null
-
-
-
+    private var videoContainer: FrameLayout? = null
+    private var containerId: Int = 0
 
     //AmaniVideoSDK observer funcs and start func
+    fun switchCamera() {
+    val act = currentActivity?.get()
+    if (act is FragmentActivity) {
+        val dialog = MessageAlertDialogFragment(
+            message = "Do you want to switch the camera?",
+            onConfirm = {
+                Log.e("CallActivity", "confirm tapped")
+                VideoSDK.switchCamera(object : SwitchCameraObserver {
+                    override fun onSuccess(cameraPosition: CameraPosition) {
+                        Log.i("CallActivity", "switchCamera success: $cameraPosition")
+                    }
+
+                    override fun onException(exception: Throwable) {
+                        Log.e("CallActivity", "switchCamera error: ${exception.message}")
+                    }
+                })
+            },
+            onCancel = { /* nothing */ }
+        )
+        dialog.show(act.supportFragmentManager, "SwitchCameraDialog")
+    } else {
+        Log.e("CallActivity", "Invalid activity reference")
+    }
+    }
 
     fun toggleTorch() {
-        val act = currentActivity?.get()
-        if (act is FragmentActivity) {
-            val dialog = MessageAlertDialogFragment(
-                message = "Do you want to toggle the flash?",
-                onConfirm = {
-                    Log.e(TAG, "torch tapped")
-                },
-                onCancel = { /* nothing */ }
-            )
-            dialog.show(act.supportFragmentManager, "ToggleTorchDialog")
-        } else {
-            Log.e(TAG, "Invalid activity reference")
+    val act = currentActivity?.get()
+    if (act is FragmentActivity) {
+        val dialog = MessageAlertDialogFragment(
+            message = "Do you want to toggle the flash?",
+            onConfirm = {
+                Log.e("CallActivity", "torch tapped")
+                VideoSDK.toggleTorch(object : ToggleTorchObserver {
+                    override fun onSuccess(isEnabled: Boolean) {
+                        Log.i("CallActivity", "toggleTorch success: $isEnabled")
+                    }
+
+                    override fun onError(error: Throwable) {
+                        Log.e("CallActivity", "toggleTorch error: ${error.message}")
+                    }
+                })
+            },
+            onCancel = { /* nothing */ }
+        )
+        dialog.show(act.supportFragmentManager, "ToggleTorchDialog")
+    } else {
+        Log.e("CallActivity", "Invalid activity reference")
         }
-        // val act = currentActivity?.get()
-        // if (act is FragmentActivity) {
-        //     val dialog = MessageAlertDialogFragment(
-        //         message = "Do you want to toggle the flash?",
-        //         onConfirm = {
-        //             videoModule.toggleTorch()
-        //             result.success(null)
-        //         },
-        //         onCancel = {
-        //             result.success(null)
-        //         }
-        //     )
-        //     dialog.show(act.supportFragmentManager, "ToggleTorchDialog")
-        // } else {
-        //     result.error("30006", "Invalid activity reference", null)
-        // }
     }
 
-    fun switchCamera() {
-        val act = currentActivity?.get()
-        if (act is FragmentActivity) {
-            val dialog = MessageAlertDialogFragment(
-                message = "Do you want to switch the camera?",
-                onConfirm = {
-                    Log.e(TAG, "confirm tapped")
-                },
-                onCancel = { /* nothing */ }
-            )
-            dialog.show(act.supportFragmentManager, "SwitchCameraDialog")
-        } else {
-            Log.e(TAG, "Invalid activity reference")
-        }
-        // val act = currentActivity?.get()
-        // if (act is FragmentActivity) {
-        //     val dialog = MessageAlertDialogFragment(
-        //         message = "Do you want to switch the camera?",
-        //         onConfirm = {
-        //             videoModule.switchCamera()
-        //             result.success(null)
-        //         },
-        //         onCancel = {
-        //             result.success(null)
-        //         }
-        //     )
-        //     dialog.show(act.supportFragmentManager, "SwitchCameraDialog")
-        // } else {
-        //     result.error("30006", "Invalid activity reference", null)
-        // }
-    }
-
-    // fun switchCamera(activity: Activity) {
-     
-    //     if (activity is AppCompatActivity) {
-    //     AlertDialog.Builder(activity)
-    //         .setTitle("Kamera Değiştir")
-    //         .setMessage("Kamera yönünü değiştirmek istiyor musunuz?")
-    //         .setPositiveButton("Evet") { _, _ ->
-    //             // Kamera değiştir
-    //         }
-    //         .setNegativeButton("Hayır", null)
-    //         .show()
-    //     } else {
-    //     Log.e("VideoSDK", "Activity is not AppCompatActivity!")
-    //     }
-    // }
-
-    // fun toggleTorch(activity: Activity) {
-
-    //     AlertDialog.Builder(activity)
-    //     .setTitle("Flaş Kullanımı")
-    //     .setMessage("Flaşı açmak/kapatmak ister misiniz?")
-    //     .setPositiveButton("Evet") { _, _ ->
-          
-    //     }
-    //     .setNegativeButton("Hayır", null)
-    //     .show()
-    // }
-    
+    /* 
     fun closeSDK(
-    activity: Activity,
     ) {
-        print("closeSDK kısmına geldi.")
-        val fragmentActivity = activity as? FragmentActivity
-        if (fragmentActivity == null) {
-        Log.e("FlutterAmaniVideo", "Activity is not a FragmentActivity. Cannot remove fragment.")
-        return
-        }
-        fragmentActivity.removeFragment(frag)
-    }
+        val act = currentActivity?.get()
+        if (act is FragmentActivity) {
+            act.removeFragment(frag)
 
+         videoContainer?.let {
+            val root = act.findViewById<ViewGroup>(android.R.id.content)
+            root.removeView(it) // 🔥 Video container'ı kaldır
+            videoContainer = null
+        }
+
+        frag = null
+    }
+       
+       
+    }
+*/
+   
+/* 
     override fun start(
     serverUrl: String,
     token: String,
@@ -179,85 +138,172 @@ class FlutterAmaniVideo : Module {
 ) {
     print("FlutteramaniVideoKT kısmına geldi.")
 
+     if (frag != null) {
+            result.error(
+                "30021",
+                "Start function is already triggered before",
+                "You cannot call start function before previous session is ended."
+            )
+            return
+        }
+
+        currentActivity = WeakReference(activity)
+
+        val context = activity.applicationContext
+        containerId = 0x123456
+
+        val viewParams = FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+
+    
+        videoContainer = FrameLayout(context).apply {
+            this.id = containerId
+            this.layoutParams = viewParams
+            this.setBackgroundColor(Color.RED) // veya RED for debug
+            this.isClickable = true
+            this.isFocusable = true
+            this.setOnTouchListener { _, _ -> true }
+        }
+
+        activity.addContentView(videoContainer, viewParams)
+
+        // SDK Builder
+        val builder = VideoSDK.Builder()
+            .nameSurname("$name $surname")
+            .escalatedCall(true)
+            .servers(
+                mainServerURL = serverUrl,
+                stunServerURL = stunServer,
+                turnServerURL = turnServer
+            )
+            .authentication(
+                token = token,
+                userName = turnUser,
+                password = turnPass
+            )
+            .remoteViewAspectRatio(VideoSDK.RemoteViewAspectRatio.Vertical)
+            .audioOptions(VideoSDK.AudioOptions.SpeakerPhoneOn)
+            .userInterface(
+                cameraSwitchButton = R.drawable.ic_camera_switch,
+                cameraSwitchButtonBackground = R.drawable.oval_gray,
+                microphoneMuteButton = R.drawable.ic_mic_on,
+                microphoneMuteButtonEnabled = R.drawable.ic_mic_off,
+                microphoneMuteButtonBackground = R.drawable.oval_gray,
+                cameraCloseButton = R.drawable.ic_camera_on,
+                cameraCloseButtonEnabled = R.drawable.ic_camera_off,
+                cameraCloseButtonBackground = R.drawable.oval_gray,
+                callEndButton = R.drawable.call_end,
+                callEndButtonBackground = R.drawable.oval_red
+            )
+            .videoCallObserver(AmaniVideoDelegateEventHandler.videoCallObserver)
+            .build()
+
+        frag = VideoSDK.startVideoCall(builder)
+
+        if (frag == null) {
+            result.error("30005", "Failed to initialize video call", null)
+            return
+        }
+
+        // Fragment'i container'a yerleştir
+        (activity as FragmentActivity).replaceFragment(containerViewId = containerId, fragment = frag)
+}
+
+*/
+override fun start(
+    serverUrl: String,
+    token: String,
+    name: String,
+    surname: String,
+    stunServer: String,
+    turnServer: String,
+    turnUser: String,
+    turnPass: String,
+    activity: Activity,
+    result: Result
+) {
+ 
+
     if (frag != null) {
         result.error(
             "30021",
             "Start function is already triggered before",
-            "You cannot call start function before previous session is end up."
+            "You cannot call start function before previous session is ended."
         )
         return
     }
+
     currentActivity = WeakReference(activity)
 
-    var id = 0x123456
-    val context = activity.applicationContext
-    val viewParams = FrameLayout.LayoutParams(
-    ViewGroup.LayoutParams.MATCH_PARENT,
-    ViewGroup.LayoutParams.MATCH_PARENT
-    )
+    activity.setContentView(R.layout.activity_video_call)
 
-    val container = FrameLayout(context).apply {
-        this.id = id
-        this.layoutParams = FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-        this.setBackgroundColor(Color.RED)
-        Log.i(TAG, "container ID degerii ---------: $id")
-        
-        this.visibility = View.VISIBLE
-
-
-        this.isClickable = true
-        this.isFocusable = true
-        this.setOnTouchListener { _, _ -> true }
-    }
-
-    activity.addContentView(container, viewParams)
-
+    val containerId = R.id.video_call_container
 
     val builder = VideoSDK.Builder()
-    .nameSurname("$name $surname")
-    .escalatedCall(true)
-    .servers(
-    mainServerURL = serverUrl,
-    stunServerURL = stunServer,
-    turnServerURL = turnServer
-    )
-    .authentication(
-    token = token,
-    userName = turnUser,
-    password = turnPass
-    )
-    .remoteViewAspectRatio(VideoSDK.RemoteViewAspectRatio.Vertical)
-    .audioOptions(VideoSDK.AudioOptions.SpeakerPhoneOn)
-    .userInterface(
-    cameraSwitchButton = R.drawable.ic_camera_switch,
-    cameraSwitchButtonBackground = R.drawable.oval_gray,
-    microphoneMuteButton = R.drawable.ic_mic_on,
-    microphoneMuteButtonEnabled = R.drawable.ic_mic_off,
-    microphoneMuteButtonBackground = R.drawable.oval_gray,
-    cameraCloseButton = R.drawable.ic_camera_on,
-    cameraCloseButtonEnabled = R.drawable.ic_camera_off,
-    cameraCloseButtonBackground = R.drawable.oval_gray,
-    callEndButton = R.drawable.call_end,
-    callEndButtonBackground = R.drawable.oval_red
-    )
-    .videoCallObserver(AmaniVideoDelegateEventHandler.videoCallObserver)
-    .build()
+        .nameSurname("$name $surname")
+        .escalatedCall(true)
+        .servers(
+            mainServerURL = serverUrl,
+            stunServerURL = stunServer,
+            turnServerURL = turnServer
+        )
+        .authentication(
+            token = token,
+            userName = turnUser,
+            password = turnPass
+        )
+        .remoteViewAspectRatio(VideoSDK.RemoteViewAspectRatio.Vertical)
+        .audioOptions(VideoSDK.AudioOptions.SpeakerPhoneOn)
+        .userInterface(
+            cameraSwitchButton = R.drawable.ic_camera_switch,
+            cameraSwitchButtonBackground = R.drawable.oval_gray,
+            microphoneMuteButton = R.drawable.ic_mic_on,
+            microphoneMuteButtonEnabled = R.drawable.ic_mic_off,
+            microphoneMuteButtonBackground = R.drawable.oval_gray,
+            cameraCloseButton = R.drawable.ic_camera_on,
+            cameraCloseButtonEnabled = R.drawable.ic_camera_off,
+            cameraCloseButtonBackground = R.drawable.oval_gray,
+            callEndButton = R.drawable.call_end,
+            callEndButtonBackground = R.drawable.oval_red
+        )
+        .videoCallObserver(AmaniVideoDelegateEventHandler.videoCallObserver)
+        .build()
 
     frag = VideoSDK.startVideoCall(builder)
 
     if (frag == null) {
-    result.error("30005", "Failed to initialize video call", null)
-    return
+        result.error("30005", "Failed to initialize video call", null)
+        return
     }
 
-    // Fragment'i göster
-    (activity as FragmentActivity).replaceFragment(containerViewId = id, fragment = frag)
+    (activity as FragmentActivity).replaceFragment(containerViewId = containerId, fragment = frag)
 }
 
-   
-   
+
+
+fun closeSDK(result: Result) {
+   val act = currentActivity?.get()
+
+    if (act is FragmentActivity) {
+        frag?.let {
+            act.supportFragmentManager.beginTransaction()
+                .remove(it)
+                .commitNow()
+            frag = null
+        }
+
+        result.success("Closed")
+
+        
+        act.recreate()
+    } else {
+        result.error("30031", "Not a FragmentActivity", null)
+    }
 }
+
+}
+
+
 
