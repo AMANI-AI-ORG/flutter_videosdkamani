@@ -19,12 +19,12 @@ The Amani Video SDK provides a video-based KYC verification solution. This Andro
 
 The minimum requirements for the SDK are:
 
-minSdkVersion 21
-compileSdk 34
+minSdkVersion 21  
+compileSdk 34  
 Compiled with Java 17, minimum Java Version should be 17 as follows.
 
 compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_17  
         targetCompatibility JavaVersion.VERSION_17
     }
 
@@ -42,20 +42,23 @@ compileOptions {
 This SDK makes use of the devices Camera, Location and NFC permissions. If you don't want to use location service, please provide in init method.
 
 You must have the folowing keys in your application's manifest file:
-
+```xml
 <uses-permission android:name="android.permission.CAMERA" />
 <uses-permission android:name="android.permission.RECORD_AUDIO" />
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```
 
 # ProGuard Rule Usage
 
 If you are using ProGuard in your application, you just need to add this line into your ProGuard Rules!
 
+```xml
 -keep class ai.amani** {*;}
 -dontwarn ai.amani**
 -keep class com.cloudwebrtc.webrtc.** { *; }
 -keep class org.webrtc.** { *; }     
+```
 
 # Installation
 
@@ -63,38 +66,42 @@ If you are using ProGuard in your application, you just need to add this line in
 
 To add this flutter plugin you must add the lines below to your pubspec.yaml file.
 
+```xml
 flutter_videosdkamani:
   git:
     url: https://github.com/bedryy/flutter_videosdkamani.git
     ref: 'main'
+```
 
 1. Add the following dependencies to your Module build.gradle file.
 ```groovy
  implementation 'ai.amani.android:amanivideosdk:1.4.1'
  ```
 2. Enable view-binding in the Module build.gradle by adding this line into code block of android : 
-
+```groovy
 buildFeatures {
         viewBinding true
 }
-
+```
 3. Add the following in the Project build.gradle within in buildscript within the buildscript->repositories and buildscript->allprojects.
 
+```groovy
  maven { url "https://jfrog.amani.ai/artifactory/amani-video-sdk"}
- 
+  ```
  
  
  # General Requirements - iOS
  The minimum requirements for this SDK are:
 
-  iOS 13.0 and higher
+  iOS 13.0 and higher  
   Xcode 14 and higher (after version 1.1.1)
   
   
 Add these lines on your Podfile\
-
+```xml
 source "https://github.com/AmaniTechnologiesLtd/Mobile_SDK_Repo"
 source "https://github.com/CocoaPods/Specs"
+```
 
 # Permissions - iOS
 
