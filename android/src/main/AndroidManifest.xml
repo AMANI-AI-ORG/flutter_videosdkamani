@@ -2,23 +2,31 @@
   xmlns:tools="http://schemas.android.com/tools"
   package="com.example.flutter_videosdkamani">
   
-   <application
-        android:label="videosdkamani_example"
-        android:name="${applicationName}"
-        tools:replace="android:label, android:name"
-        android:icon="@mipmap/ic_launcher">
+  <application
+      android:label="videosdkamani_example"
+      android:name="${applicationName}"
+      tools:replace="android:label, android:name"
+      android:icon="@mipmap/ic_launcher">
 
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            tools:replace="android:theme"
-            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-            android:hardwareAccelerated="true"
-            android:windowSoftInputMode="adjustResize">
-        </activity>
+      <activity
+          android:name=".MainActivity"
+          android:exported="true"
+          android:launchMode="singleTop"
+          android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+          tools:replace="android:theme"
+          android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+          android:hardwareAccelerated="true"
+          android:windowSoftInputMode="adjustResize" />
 
-    </application>
-  
+      <!-- 👇 Yeni eklenen Activity -->
+      <activity
+          android:name=".ui.AmaniVideoCallActivity"
+          android:exported="false"
+          android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+          android:launchMode="singleTop"
+          android:configChanges="orientation|screenSize|keyboardHidden"
+          android:windowSoftInputMode="adjustResize" />
+          
+  </application>
+
 </manifest>

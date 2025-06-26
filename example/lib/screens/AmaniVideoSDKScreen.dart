@@ -43,6 +43,8 @@ class _AmaniVideoSDKScreenState extends State<AmaniVideoSDKScreen> {
       _videoSDKModule.switchCamera();
     } else if (event == "torch_toggle_requested") {
       _videoSDKModule.toggleTorch();
+    } else if (event == "on_ui_call_end") {
+      _videoSDKModule.closeSDK();
     } else if (event == "call_end") {
       _videoSDKModule.closeSDK().then((_) {
       debugPrint("navigate did pop ");
@@ -60,7 +62,7 @@ class _AmaniVideoSDKScreenState extends State<AmaniVideoSDKScreen> {
   }
   Future<void> setupVideoBuilder() async {
   _videoSDKModule.startVideo("server_url", 
-                               "token",
+                               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzUwOTM3NjIwLCJpYXQiOjE3NTA5MzQwMjAsImp0aSI6IjlhNGU3NTRhNmUyZTRkYmViYjlkNmY2MDVmMjgyYjJlIiwidXNlcl9pZCI6IjM5ODQ4Yjc5LWM3NjItNGExNi1iMDFlLTdkYjlkMjJmNmNkNyIsImFwaV91c2VyIjpmYWxzZSwicHJvZmlsZV9pZCI6IjBjNWQyOTM5LWM1ZmMtNDliNS05YzM1LWExMTk3YzM5YjYwNyIsImNvbXBhbnlfaWQiOiJlOWFmYmQzMS03M2NlLTRkZDYtYTI1Ny1mOGYxNmExZjBkNTIifQ.qxUQSuBHx1cmhel5r_uxgTNijlzyU-E72cbq0IKQMKA",
                                "name", 
                                "surname", 
                                "stun_server",
