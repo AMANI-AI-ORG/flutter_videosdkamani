@@ -66,7 +66,7 @@ To add this flutter plugin you must add the lines below to your pubspec.yaml fil
 ```xml
 flutter_videosdkamani:
   git:
-    url: https://github.com/bedryy/flutter_videosdkamani.git
+    url: https://github.com/AMANI-AI-ORG/flutter_videosdkamani.git
     ref: 'main'
 ```
 

@@ -80,7 +80,7 @@ class AmaniVideoCallActivity : AppCompatActivity() {
             frag = null
         }
 
-        // 🔴 BU SATIRLA REFERANSI TEMİZLE
+      
         FlutterAmaniVideo.AmaniCallHolder.activity = null
 
         super.onDestroy()
