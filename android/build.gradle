@@ -127,7 +127,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.mockito:mockito-core:5.0.0")
 
-    implementation 'ai.amani.android:amanivideosdk:1.8.0'
+    implementation 'ai.amani.android:amanivideosdk:1.9.0'
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.activity:activity-ktx:1.7.0'
     implementation 'androidx.fragment:fragment-ktx:1.5.6'

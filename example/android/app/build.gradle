@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.flutter_videosdkamani_example"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -42,7 +42,7 @@ android {
 
 //     defaultConfig {
 //         applicationId = "com.example.flutter_videosdkamani_example"
-//         minSdk = 21
+//         minSdk = 23
 //         targetSdk = 35
 //         versionCode = flutter.versionCode
 //         versionName = flutter.versionName
