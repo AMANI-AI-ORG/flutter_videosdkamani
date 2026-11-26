@@ -2,6 +2,8 @@
 
 import 'dart:async';
 import '../main.dart';
+import '../qr/amani_qr_session.dart';
+import 'qr_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_videosdkamani/flutter_videosdkamani.dart';
@@ -60,17 +62,42 @@ class _AmaniVideoSDKScreenState extends State<AmaniVideoSDKScreen> {
     _videoStreamSubscription?.cancel();
     super.dispose();
   }
-  Future<void> setupVideoBuilder() async {
-  _videoSDKModule.startVideo("server_url", 
-                               "token",
-                               "name", 
-                               "surname", 
-                               "stun_server",
-                               "turn_server", 
-                               "st_user", 
-                               "pass");
-    _videoSDKModule.setAmaniVideoDelegate();
 
+  bool _isStarting = false;
+  String _status = "Görüntülü görüşmeyi başlatmak için QR kodu okutun.";
+
+  /// QR code -> pid + server URL -> access token -> video config -> startVideo.
+  Future<void> setupVideoBuilder() async {
+    final info = await Navigator.push<QrSessionInfo>(
+      context,
+      MaterialPageRoute(builder: (_) => const QrScannerScreen()),
+    );
+    if (info == null || !mounted) return;
+
+    setState(() {
+      _isStarting = true;
+      _status = "Oturum başlatılıyor...";
+    });
+    try {
+      final accessData = await AmaniQrSession.fetchAccessData(info);
+      final videoConfig = await AmaniQrSession.fetchVideoConfig(accessData);
+      _videoSDKModule.startVideo(
+          videoConfig.socketServer,
+          accessData.accessToken,
+          "name",
+          "surname",
+          videoConfig.stunServer,
+          videoConfig.turnServer,
+          videoConfig.turnUsername,
+          videoConfig.turnPassword);
+      _videoSDKModule.setAmaniVideoDelegate();
+      if (mounted) setState(() => _status = "Görüşme başlatıldı.");
+    } catch (e) {
+      debugPrint("[QR] session start failed: $e");
+      if (mounted) setState(() => _status = "Hata: $e");
+    } finally {
+      if (mounted) setState(() => _isStarting = false);
+    }
   }
 
   Future<bool> onWillPop() async {
@@ -93,11 +120,20 @@ class _AmaniVideoSDKScreenState extends State<AmaniVideoSDKScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              OutlinedButton(
-                  onPressed: () {
-                    setupVideoBuilder();
-                  },
-                  child: const Text("Start")),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(_status, textAlign: TextAlign.center),
+              ),
+              OutlinedButton.icon(
+                onPressed: _isStarting ? null : setupVideoBuilder,
+                icon: _isStarting
+                    ? const SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2))
+                    : const Icon(Icons.qr_code_scanner),
+                label: const Text("QR Kodu Tara"),
+              ),
             ],
           ),
         ),

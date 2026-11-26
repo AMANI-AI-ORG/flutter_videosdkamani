@@ -1,8 +1,81 @@
+// group = "com.example.flutter_videosdkamani"
+// version = "1.0-SNAPSHOT"
+
+// buildscript {
+//     ext.kotlin_version = "1.8.22"
+//     repositories {
+//         google()
+//         mavenCentral()
+//         maven { url 'https://jitpack.io' }
+//     }
+
+//     dependencies {
+//         classpath("com.android.tools.build:gradle:8.1.0")
+//         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
+//     }
+// }
+
+// allprojects {
+//     repositories {
+//         google()
+//         mavenCentral()
+//         maven { url 'https://www.jitpack.io' }
+//         maven {
+//             url = "https://jfrog.amani.ai/artifactory/amani-video-sdk"
+//         }
+//     }
+// }
+
+// apply plugin: "com.android.library"
+// apply plugin: "kotlin-android"
+
+// android {
+//     namespace = "com.example.flutter_videosdkamani"
+
+//     compileSdk = 35
+
+//     compileOptions {
+//         sourceCompatibility = JavaVersion.VERSION_11
+//         targetCompatibility = JavaVersion.VERSION_11
+//     }
+
+//     kotlinOptions {
+//         jvmTarget = JavaVersion.VERSION_11
+//     }
+
+//     sourceSets {
+//         main.java.srcDirs += "src/main/kotlin"
+//         test.java.srcDirs += "src/test/kotlin"
+//     }
+
+//     defaultConfig {
+//         minSdk = 21
+//     }
+ 
+//     dependencies {
+//         testImplementation("org.jetbrains.kotlin:kotlin-test")
+//         testImplementation("org.mockito:mockito-core:5.0.0")
+//         implementation 'ai.amani.android:amanivideosdk:1.8.0'
+//         implementation 'androidx.core:core-ktx:1.12.0'
+//         implementation 'androidx.activity:activity-ktx:1.7.0'
+//         implementation 'androidx.fragment:fragment-ktx:1.5.6'
+//         implementation 'androidx.appcompat:appcompat:1.6.1'
+//         implementation 'com.google.android.material:material:1.2.1'
+//         implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+//         implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+//         implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+//         testImplementation 'junit:junit:4.+'
+//         androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+//         androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+//     }
+
+// }
+
 group = "com.example.flutter_videosdkamani"
 version = "1.0-SNAPSHOT"
 
 buildscript {
-    ext.kotlin_version = "1.8.22"
+    ext.kotlin_version = "2.1.20"
     repositories {
         google()
         mavenCentral()
@@ -10,7 +83,7 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:8.1.0")
+        classpath("com.android.tools.build:gradle:8.7.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
     }
 }
@@ -20,9 +93,7 @@ allprojects {
         google()
         mavenCentral()
         maven { url 'https://www.jitpack.io' }
-        maven {
-            url = "https://jfrog.amani.ai/artifactory/amani-video-sdk"
-        }
+        maven { url "https://jfrog.amani.ai/artifactory/amani-video-sdk" }
     }
 }
 
@@ -31,16 +102,15 @@ apply plugin: "kotlin-android"
 
 android {
     namespace = "com.example.flutter_videosdkamani"
-
     compileSdk = 35
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11
+        jvmTarget = "17"
     }
 
     sourceSets {
@@ -51,22 +121,23 @@ android {
     defaultConfig {
         minSdk = 21
     }
- 
-    dependencies {
-        testImplementation("org.jetbrains.kotlin:kotlin-test")
-        testImplementation("org.mockito:mockito-core:5.0.0")
-        implementation 'ai.amani.android:amanivideosdk:1.5.0'
-        implementation 'androidx.core:core-ktx:1.12.0'
-        implementation 'androidx.activity:activity-ktx:1.7.0'
-        implementation 'androidx.fragment:fragment-ktx:1.5.6'
-        implementation 'androidx.appcompat:appcompat:1.6.1'
-        implementation 'com.google.android.material:material:1.2.1'
-        implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-        implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
-        implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
-        testImplementation 'junit:junit:4.+'
-        androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-        androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    }
+}
 
+dependencies {
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("org.mockito:mockito-core:5.0.0")
+
+    implementation 'ai.amani.android:amanivideosdk:1.9.0'
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.activity:activity-ktx:1.7.0'
+    implementation 'androidx.fragment:fragment-ktx:1.5.6'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
